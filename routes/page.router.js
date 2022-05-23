@@ -1,55 +1,55 @@
 const express = require('express');
 
-const ProductsService = require('./../services/product.service')
+const PageService = require('./../services/page.service')
 const validatorHandler = require('./../middlewares/validator.handler')
-const {createProductSchema, updateProductSchema, getProductSchema} = require('./../schemas/product.schema')
+const {createPageSchema, updatePageSchema, getPageSchema} = require('./../schemas/page.schema')
 
 
 const router = express.Router();
-const service = new ProductsService();
+const service = new PageService();
 
 router.get('/', async (req, res, next ) => {
   try {
-  const products = await service.find();
-  res.json(products);
+  const pages = await service.find();
+  res.json(pages);
   }catch (error) {
     next(error);
   }
 });
 
 router.get('/:id',
-validatorHandler(getProductSchema, 'params'),
+validatorHandler(getPageSchema, 'params'),
 async (req, res, next) => {
   try {
     const { id } = req.params;
-    const products = await service.findOne(id);
-    res.json(products);
+    const pages = await service.findOne(id);
+    res.json(pages);
   }catch (error) {
     next(error);
   }
 });
 
 router.post('/',
-validatorHandler(createProductSchema, 'body'),
+validatorHandler(createPageSchema, 'body'),
 async (req, res, next) => {
   try {
   const body = req.body;
-  const newProduct = await service.create(body)
-  res.status(201).json(newProduct);
+  const newPage = await service.create(body)
+  res.status(201).json(newPage);
   } catch (error) {
     next(error);
   }
 });
 
 router.patch('/:id',
-validatorHandler(getProductSchema, 'params'),
-validatorHandler(updateProductSchema, 'body'),
+validatorHandler(getPageSchema, 'params'),
+validatorHandler(updatePageSchema, 'body'),
 async (req, res, next) => {
   try {
     const { id } = req.params;
     const body = req.body;
-    const products = await service.update(id, body);
-    res.json(products);
+    const pages = await service.update(id, body);
+    res.json(pages);
   } catch (error) {
     next(error);
   }

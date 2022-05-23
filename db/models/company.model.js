@@ -1,8 +1,8 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const CATALOG_TABLE = 'catalogs';
+const COMPANY_TABLE = 'companies';
 
-const CatalogSchema = {
+const CompanySchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -12,14 +12,28 @@ const CatalogSchema = {
   name: {
     allowNull: false,
     type: DataTypes.STRING,
+    unique: true,
   },
-  table: {
+  typeCompany: {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  value: {
+  phone: {
     allowNull: false,
     type: DataTypes.INTEGER
+  },
+  adress: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  email: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    unique: true,
+  },
+  contactName: {
+    allowNull: false,
+    type: DataTypes.STRING,
   },
   status: {
     allowNull: false,
@@ -33,20 +47,23 @@ const CatalogSchema = {
   }
 }
 
-class Catalog extends Model {
-  static associate() {
-    // associate
+class Company extends Model {
+  static associate(models) {
+    this.hasMany(models.User, {
+      as: 'userscompany',
+      foreignKey: 'companyId'
+    });
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: CATALOG_TABLE,
-      modelName: 'Catalog',
+      tableName: COMPANY_TABLE,
+      modelName: 'Company',
       timestamps: false
     }
   }
 }
 
 
-module.exports = { CATALOG_TABLE, CatalogSchema, Catalog }
+module.exports = { COMPANY_TABLE, CompanySchema, Company }

@@ -1,54 +1,54 @@
 const express = require('express');
 
-const CatalogService = require('./../services/catalog.service')
+const TypeUserService = require('./../services/typeuser.service')
 const validatorHandler = require('./../middlewares/validator.handler')
-const {createCatalogSchema, updateCatalogSchema, getCatalogSchema} = require('./../schemas/catalog.schema')
+const {createTypeUserSchema, updateTypeUserSchema, getTypeUserSchema} = require('./../schemas/typeUser.schema')
 
 const router = express.Router();
-const service = new CatalogService();
+const service = new TypeUserService();
 
 router.get('/', async (req, res, next) => {
   try {
-  const catalogs = await service.find();
-  res.json(catalogs);
+  const typeUser = await service.find();
+  res.json(typeUser);
 }catch (error) {
   next(error);
 }
 });
 
 router.get('/:id',
-validatorHandler(getCatalogSchema, 'params'),
+validatorHandler(getTypeUserSchema, 'params'),
 async (req, res, next) => {
   try {
     const { id } = req.params;
-    const catalogs = await service.findOne(id);
-    res.json(catalogs);
+    const typeUser = await service.findOne(id);
+    res.json(typeUser);
   }catch (error) {
     next(error);
   }
 });
 
 router.post('/',
-validatorHandler(createCatalogSchema, 'body'),
+validatorHandler(createTypeUserSchema, 'body'),
 async (req, res, next) => {
   try {
     const body = req.body;
-    const newCatalog = await service.create(body)
-    res.status(201).json(newCatalog);
+    const newTypeUser = await service.create(body)
+    res.status(201).json(newTypeUser);
   } catch (error) {
   next(error);
   }
 });
 
 router.patch('/:id',
-validatorHandler(getCatalogSchema, 'params'),
-validatorHandler(updateCatalogSchema, 'body'),
+validatorHandler(getTypeUserSchema, 'params'),
+validatorHandler(updateTypeUserSchema, 'body'),
 async (req, res, next) => {
   try {
     const { id } = req.params;
     const body = req.body;
-    const catalogs = await service.update(id, body);
-    res.json(catalogs);
+    const typeUser = await service.update(id, body);
+    res.json(typeUser);
   } catch (error) {
     next(error);
   }

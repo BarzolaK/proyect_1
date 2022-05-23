@@ -1,8 +1,8 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const CATALOG_TABLE = 'catalogs';
+const PAGE_TABLE = 'page';
 
-const CatalogSchema = {
+const PageSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -10,43 +10,44 @@ const CatalogSchema = {
     type: DataTypes.INTEGER
   },
   name: {
-    allowNull: false,
     type: DataTypes.STRING,
-  },
-  table: {
     allowNull: false,
+  },
+  parentId: {
+    field: 'parent_id',
+    allowNull: true,
+    type: DataTypes.INTEGER,
+  },
+  path: {
     type: DataTypes.STRING,
-  },
-  value: {
     allowNull: false,
-    type: DataTypes.INTEGER
   },
-  status: {
+  image: {
+    type: DataTypes.STRING,
     allowNull: false,
-    type: DataTypes.STRING
   },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
-    field: 'create_at',
-    defaultValue: Sequelize.NOW
-  }
+    field: 'created_at',
+    defaultValue: Sequelize.NOW,
+  },
+
 }
 
-class Catalog extends Model {
+class Page extends Model {
   static associate() {
-    // associate
+    //this.belongsTo(models.Category, { as: 'category' });
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: CATALOG_TABLE,
-      modelName: 'Catalog',
+      tableName: PAGE_TABLE,
+      modelName: 'Page',
       timestamps: false
     }
   }
 }
 
-
-module.exports = { CATALOG_TABLE, CatalogSchema, Catalog }
+  module.exports = { Page, PageSchema, PAGE_TABLE };

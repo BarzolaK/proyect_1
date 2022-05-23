@@ -1,22 +1,18 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const USER_TABLE = 'users';
+const TYPEUSER_TABLE = 'type_user';
 
-const UserSchema = {
+const TypeUserSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  email: {
+  name: {
     allowNull: false,
     type: DataTypes.STRING,
     unique: true,
-  },
-  password: {
-    allowNull: false,
-    type: DataTypes.STRING
   },
   createdAt: {
     allowNull: false,
@@ -26,20 +22,23 @@ const UserSchema = {
   }
 }
 
-class User extends Model {
-  static associate() {
-    // associate
+class TypeUser extends Model {
+  static associate(models) {
+    this.hasMany(models.User, {
+      as: 'userscompany',
+      foreignKey: 'typeUserId'
+    });
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: USER_TABLE,
-      modelName: 'User',
+      tableName: TYPEUSER_TABLE,
+      modelName: 'TypeUser',
       timestamps: false
     }
   }
 }
 
 
-module.exports = { USER_TABLE, UserSchema, User }
+module.exports = { TYPEUSER_TABLE, TypeUserSchema, TypeUser }
