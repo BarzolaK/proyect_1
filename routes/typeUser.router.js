@@ -1,7 +1,9 @@
 const express = require('express');
+const passport = require('passport');
 
 const TypeUserService = require('./../services/typeuser.service')
 const validatorHandler = require('./../middlewares/validator.handler')
+const { checkAdminRole }= require('./../middlewares/auth.handler')
 const {createTypeUserSchema, updateTypeUserSchema, getTypeUserSchema} = require('./../schemas/typeUser.schema')
 
 const router = express.Router();
@@ -25,10 +27,13 @@ async (req, res, next) => {
     res.json(typeUser);
   }catch (error) {
     next(error);
+
   }
 });
 
 router.post('/',
+passport.authenticate('jwt', {session: false}),
+checkAdminRole,
 validatorHandler(createTypeUserSchema, 'body'),
 async (req, res, next) => {
   try {

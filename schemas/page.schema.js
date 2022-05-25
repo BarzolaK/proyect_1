@@ -6,6 +6,9 @@ const parentId = Joi.number().integer();
 const path = Joi.string();
 const image = Joi.string();
 
+const limit = Joi.number().integer();
+const offset = Joi.number().integer();
+
 const createPageSchema = Joi.object({
   name: name.required(),
   parentId,
@@ -22,4 +25,9 @@ const getPageSchema = Joi.object({
   id: id.required(),
 });
 
-module.exports = { createPageSchema, updatePageSchema, getPageSchema }
+const queryUserSchema = Joi.object({
+  limit,
+  offset
+});
+
+module.exports = { createPageSchema, updatePageSchema, getPageSchema, queryUserSchema }

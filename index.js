@@ -23,6 +23,8 @@ const options = {
 }
 app.use(cors());
 
+require('./utils/auth');
+
 app.get('/', (req, res) => {
   res.send('Server en Express');
 })
